@@ -1,0 +1,10 @@
+# Wellness Nurse Pro
+> Your guide to holistic health through the NEWSTART lifestyle
+
+## About
+Wellness Nurse Pro is a health and wellness resource dedicated to sharing the Eight Laws of Health — Nutrition, Exercise, Water, Sunlight, Temperance, Air, Rest, and Trust in God. Our content is rooted in the health message of the Seventh-day Adventist Church and the writings of Ellen G. White.
+
+## Pages
+- Homepage: https://wellnessnursepro.com/
+- Eight Laws of Health: https://wellnessnursepro.com/eight-laws-of-health
+- Blog: https://wellnessnursepro.com/blog
