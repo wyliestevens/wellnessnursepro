@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const quickLinks = [
   { href: "/", label: "Home" },
-  { href: "/eight-laws", label: "Eight Laws of Health" },
+  { href: "/eight-laws-of-health", label: "Eight Laws of Health" },
   { href: "/blog", label: "Blog" },
 ];
 
