@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const navLinks = [
+const staticLinks = [
   { href: "/", label: "Home" },
   { href: "/eight-laws", label: "Eight Laws of Health" },
   { href: "/blog", label: "Blog" },
@@ -11,6 +11,23 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dynamicLinks, setDynamicLinks] = useState<{ href: string; label: string }[]>([]);
+
+  useEffect(() => {
+    async function loadNav() {
+      try {
+        const res = await fetch("/api/nav");
+        if (!res.ok) return;
+        const pages: { title: string; slug: string }[] = await res.json();
+        setDynamicLinks(pages.map((p) => ({ href: `/pages/${p.slug}`, label: p.title })));
+      } catch {
+        // Nav fetch failed — show static links only
+      }
+    }
+    loadNav();
+  }, []);
+
+  const navLinks = [...staticLinks, ...dynamicLinks];
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[var(--light-green)] shadow-sm">

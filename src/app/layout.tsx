@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lora, Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ThemeProvider from "@/components/ThemeProvider";
 import { OrganizationSchema, WebSiteSchema } from "@/components/StructuredData";
 import "./globals.css";
 
@@ -72,11 +73,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lora.variable} ${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
-        <OrganizationSchema />
-        <WebSiteSchema />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <OrganizationSchema />
+          <WebSiteSchema />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

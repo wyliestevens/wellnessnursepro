@@ -65,7 +65,7 @@ export default function NewPostPage() {
         return;
       }
 
-      router.push('/admin/dashboard');
+      router.push('/admin/dashboard/blog');
     } catch {
       setError('Something went wrong. Please try again.');
       setSaving(false);
@@ -77,11 +77,10 @@ export default function NewPostPage() {
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <Link
-            href="/admin/dashboard"
-            className="text-sm font-medium hover:underline"
-            style={{ color: 'var(--secondary-green)' }}
+            href="/admin/dashboard/blog"
+            className="text-sm font-medium text-[#2d6a4f] hover:underline"
           >
-            &larr; Dashboard
+            &larr; Blog Posts
           </Link>
           <h1 className="text-2xl">New Blog Post</h1>
         </div>
@@ -212,7 +211,7 @@ export default function NewPostPage() {
               {saving ? 'Publishing...' : 'Publish Post'}
             </button>
             <Link
-              href="/admin/dashboard"
+              href="/admin/dashboard/blog"
               className="px-6 py-3 rounded-lg font-semibold border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors duration-200"
             >
               Cancel

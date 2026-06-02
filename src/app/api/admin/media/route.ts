@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/auth';
-import { getAllPosts, createPost } from '@/lib/blog-data';
+import { list, del } from '@vercel/blob';
 
 function getAuthEmail(request: NextRequest): string | null {
   const token = request.cookies.get('wnp-admin-token')?.value;
@@ -15,11 +15,26 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const posts = await getAllPosts();
-  return NextResponse.json({ posts });
+  try {
+    const { blobs } = await list({ prefix: 'uploads/' });
+
+    const files = blobs.map((blob) => ({
+      url: blob.url,
+      pathname: blob.pathname,
+      size: blob.size,
+      uploadedAt: blob.uploadedAt,
+    }));
+
+    return NextResponse.json({ files });
+  } catch {
+    return NextResponse.json(
+      { error: 'Failed to list files' },
+      { status: 500 }
+    );
+  }
 }
 
-export async function POST(request: NextRequest) {
+export async function DELETE(request: NextRequest) {
   const email = getAuthEmail(request);
   if (!email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -27,29 +42,18 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, slug, excerpt, content, tags, coverImage } = body;
+    const { url } = body;
 
-    if (!title || !slug || !excerpt || !content) {
-      return NextResponse.json(
-        { error: 'Title, slug, excerpt, and content are required' },
-        { status: 400 }
-      );
+    if (!url) {
+      return NextResponse.json({ error: 'URL is required' }, { status: 400 });
     }
 
-    const post = await createPost({
-      title,
-      slug,
-      excerpt,
-      content,
-      author: 'Wellness Nurse Pro',
-      coverImage: coverImage || undefined,
-      tags: tags || [],
-    });
+    await del(url);
 
-    return NextResponse.json({ post }, { status: 201 });
+    return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to delete file' },
       { status: 500 }
     );
   }

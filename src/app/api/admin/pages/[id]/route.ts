@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/auth';
-import { updatePost, deletePost, getPostById } from '@/lib/blog-data';
+import { getPageById, updatePage, deletePage } from '@/lib/page-data';
 
 function getAuthEmail(request: NextRequest): string | null {
   const token = request.cookies.get('wnp-admin-token')?.value;
@@ -20,12 +20,12 @@ export async function GET(request: NextRequest, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const post = await getPostById(id);
-  if (!post) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+  const page = await getPageById(id);
+  if (!page) {
+    return NextResponse.json({ error: 'Page not found' }, { status: 404 });
   }
 
-  return NextResponse.json({ post });
+  return NextResponse.json({ page });
 }
 
 export async function PUT(request: NextRequest, context: RouteContext) {
@@ -38,13 +38,13 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
   try {
     const body = await request.json();
-    const updated = await updatePost(id, body);
+    const updated = await updatePage(id, body);
 
     if (!updated) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Page not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ post: updated });
+    return NextResponse.json({ page: updated });
   } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -60,10 +60,10 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const deleted = await deletePost(id);
+  const deleted = await deletePage(id);
 
   if (!deleted) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Page not found' }, { status: 404 });
   }
 
   return NextResponse.json({ success: true });
