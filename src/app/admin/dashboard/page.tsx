@@ -35,17 +35,33 @@ export default function AIChatPage() {
     setLoading(true);
 
     try {
+      // Send conversation history for context
+      const history = [...messages, userMessage]
+        .filter((m) => m !== WELCOME_MESSAGE)
+        .map((m) => ({ role: m.role, content: m.content }));
+
       const res = await fetch('/api/admin/ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ message: text, history: history.slice(0, -1) }),
       });
 
       const data = await res.json();
+
+      if (!res.ok) {
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: `Error: ${data.error || 'Something went wrong'}. Please try again.` },
+        ]);
+        return;
+      }
+
       const assistantMessage: Message = {
         role: 'assistant',
-        content: data.response || 'Sorry, I encountered an error. Please try again.',
-        action: data.action || undefined,
+        content: data.message || data.response || 'Done! Is there anything else you need?',
+        action: data.action
+          ? { type: data.action.type, description: `${data.action.type}: ${JSON.stringify(data.action.result)}` }
+          : undefined,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch {

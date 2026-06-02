@@ -319,7 +319,7 @@ export default function EightLawsOfHealth() {
             </p>
             <p className="mt-4">
               These principles were popularized by the{" "}
-              <strong>Weimar Institute</strong> in California, which developed
+              Weimar Institute in California, which developed
               the NEWSTART lifestyle program based on the health writings of
               Ellen G. White. Beginning in the 1860s, Mrs. White received
               visions and insights on health reform that were decades, and in
