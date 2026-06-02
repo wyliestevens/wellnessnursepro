@@ -12,11 +12,11 @@ type AdminUser = {
 const adminUsers: AdminUser[] = [
   {
     email: 'dbstevens04@hotmail.com',
-    passwordHash: bcrypt.hashSync('WellnessAdmin2026!', 10),
+    passwordHash: bcrypt.hashSync('Password', 10),
   },
   {
     email: 'wylie@aipeakbiz.com',
-    passwordHash: bcrypt.hashSync('WellnessAdmin2026!', 10),
+    passwordHash: bcrypt.hashSync('Password', 10),
   },
 ];
 
