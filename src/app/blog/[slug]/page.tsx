@@ -2,6 +2,7 @@ import { getAllPosts, getPostBySlug } from '@/lib/blog-data';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} — Wellness Nurse Pro`,
     description: post.excerpt,
+    alternates: { canonical: `https://wellnessnursepro.com/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -127,6 +129,21 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <section className="section-padding">
+      <ArticleSchema
+        title={post.title}
+        description={post.excerpt}
+        url={`https://wellnessnursepro.com/blog/${slug}`}
+        datePublished={post.publishedAt}
+        type="BlogPosting"
+        {...(post.coverImage ? { image: post.coverImage } : {})}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://wellnessnursepro.com" },
+          { name: "Blog", url: "https://wellnessnursepro.com/blog" },
+          { name: post.title, url: `https://wellnessnursepro.com/blog/${slug}` },
+        ]}
+      />
       <div className="max-w-3xl mx-auto">
         <Link
           href="/blog"
@@ -185,6 +202,12 @@ export default async function BlogPostPage({ params }: Props) {
           >
             Read More Articles
           </Link>
+        </div>
+        <div className="max-w-3xl mx-auto mt-8 pt-6 border-t border-gray-200">
+          <p className="text-xs text-gray-400 italic">
+            <strong>Disclaimer:</strong> This content is for educational purposes only and does not constitute medical advice.
+            Consult a qualified healthcare provider before making health decisions.
+          </p>
         </div>
       </div>
     </section>

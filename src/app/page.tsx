@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getAllPosts } from "@/lib/blog-data";
 
 export const metadata: Metadata = {
   title: "WellnessNursePro — God's Blueprint for Optimal Health | NEWSTART Lifestyle",
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
     "Discover the 8 laws of health rooted in the NEWSTART lifestyle. Evidence-based holistic wellness guided by a registered nurse — Nutrition, Exercise, Water, Sunlight, Temperance, Air, Rest, and Trust in God.",
   keywords:
     "NEWSTART, holistic health, wellness nurse, 8 laws of health, nutrition, exercise, water, sunlight, temperance, air, rest, trust in God, Ellen White, natural remedies",
+  alternates: { canonical: "https://wellnessnursepro.com" },
 };
 
 const eightLaws = [
@@ -68,7 +70,12 @@ const eightLaws = [
   },
 ];
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const posts = await getAllPosts();
+  const recentPosts = posts.slice(0, 3);
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -274,29 +281,9 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Placeholder blog cards */}
-            {[
-              {
-                title: "5 Plant-Based Breakfasts to Start Your Day Right",
-                category: "Nutrition",
-                excerpt:
-                  "Simple, delicious morning meals that fuel your body and honor the first law of health.",
-              },
-              {
-                title: "Why 30 Minutes of Walking Changes Everything",
-                category: "Exercise",
-                excerpt:
-                  "The science behind daily movement and how even a short walk can transform your health.",
-              },
-              {
-                title: "How Much Water Do You Really Need?",
-                category: "Water",
-                excerpt:
-                  "Cut through the myths and discover the hydration habits that actually matter.",
-              },
-            ].map((post, index) => (
+            {recentPosts.map((post) => (
               <article
-                key={index}
+                key={post.id}
                 className="overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md"
               >
                 <div
@@ -304,7 +291,7 @@ export default function Home() {
                   style={{ backgroundColor: "#40916c" }}
                 >
                   <span className="text-sm font-semibold uppercase tracking-widest text-white/70">
-                    Coming Soon
+                    {post.tags[0] || "Wellness"}
                   </span>
                 </div>
                 <div className="p-6">
@@ -312,7 +299,7 @@ export default function Home() {
                     className="text-xs font-bold uppercase tracking-wider"
                     style={{ color: "#d4a574" }}
                   >
-                    {post.category}
+                    {post.tags[0] || "Wellness"}
                   </span>
                   <h3
                     className="mt-2 text-lg font-semibold leading-snug"
@@ -321,6 +308,13 @@ export default function Home() {
                     {post.title}
                   </h3>
                   <p className="mt-2 text-sm text-gray-600">{post.excerpt}</p>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="mt-4 inline-block text-sm font-semibold hover:underline"
+                    style={{ color: "#40916c" }}
+                  >
+                    Read More →
+                  </Link>
                 </div>
               </article>
             ))}

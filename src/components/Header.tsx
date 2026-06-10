@@ -7,6 +7,7 @@ const staticLinks = [
   { href: "/", label: "Home" },
   { href: "/eight-laws-of-health", label: "Eight Laws of Health" },
   { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
 ];
 
 export default function Header() {

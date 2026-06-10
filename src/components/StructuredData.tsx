@@ -10,7 +10,10 @@ export function WebSiteSchema() {
       'Your guide to holistic health through the NEWSTART lifestyle principles rooted in faith and science.',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://wellnessnursepro.com/blog?q={search_term_string}',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://wellnessnursepro.com/blog?q={search_term_string}',
+      },
       'query-input': 'required name=search_term_string',
     },
   }
@@ -26,12 +29,12 @@ export function WebSiteSchema() {
 export function OrganizationSchema() {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'MedicalOrganization',
     name: 'Wellness Nurse Pro',
     url: 'https://wellnessnursepro.com',
     description:
       'Health and wellness resource dedicated to sharing the Eight Laws of Health — NEWSTART lifestyle principles rooted in faith and science.',
-    sameAs: [],
+    medicalSpecialty: 'Preventive Medicine',
   }
 
   return (
@@ -49,6 +52,7 @@ export function ArticleSchema({
   datePublished,
   dateModified,
   image,
+  type = 'Article',
 }: {
   title: string
   description: string
@@ -56,10 +60,11 @@ export function ArticleSchema({
   datePublished: string
   dateModified?: string
   image?: string
+  type?: 'Article' | 'BlogPosting'
 }) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': type,
     headline: title,
     description,
     url,
@@ -67,14 +72,19 @@ export function ArticleSchema({
     dateModified: dateModified || datePublished,
     ...(image && { image }),
     author: {
-      '@type': 'Organization',
-      name: 'Wellness Nurse Pro',
-      url: 'https://wellnessnursepro.com',
+      '@type': 'Person',
+      name: 'Wellness Nurse Pro, RN',
+      jobTitle: 'Registered Nurse',
+      url: 'https://wellnessnursepro.com/about',
     },
     publisher: {
       '@type': 'Organization',
       name: 'Wellness Nurse Pro',
       url: 'https://wellnessnursepro.com',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
     },
   }
 
@@ -99,6 +109,32 @@ export function BreadcrumbSchema({
       position: index + 1,
       name: item.name,
       item: item.url,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function FAQSchema({
+  questions,
+}: {
+  questions: { question: string; answer: string }[]
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((q) => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: q.answer,
+      },
     })),
   }
 

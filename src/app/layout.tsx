@@ -45,16 +45,12 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: {
-    canonical: "https://wellnessnursepro.com",
-  },
   openGraph: {
     title: "Wellness Nurse Pro — Your Guide to Holistic Health",
     description:
       "Evidence-based wellness guidance rooted in the NEWSTART lifestyle principles. Nutrition, exercise, water, sunlight, temperance, air, rest, and trust.",
     type: "website",
     locale: "en_US",
-    url: "https://wellnessnursepro.com",
     siteName: "Wellness Nurse Pro",
   },
   twitter: {

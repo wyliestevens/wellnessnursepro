@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArticleSchema, BreadcrumbSchema, FAQSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title:
@@ -32,6 +33,7 @@ export const metadata: Metadata = {
     description:
       "Discover God's blueprint for vibrant living through the NEWSTART health principles rooted in Scripture and the writings of Ellen G. White.",
   },
+  alternates: { canonical: "https://wellnessnursepro.com/eight-laws-of-health" },
 };
 
 const laws = [
@@ -272,6 +274,28 @@ const laws = [
 export default function EightLawsOfHealth() {
   return (
     <div>
+      <ArticleSchema
+        title="The Eight Laws of Health — NEWSTART Principles"
+        description="Discover God's blueprint for vibrant living through the Eight Laws of Health: Nutrition, Exercise, Water, Sunlight, Temperance, Air, Rest, and Trust in God."
+        url="https://wellnessnursepro.com/eight-laws-of-health"
+        datePublished="2026-06-02"
+        dateModified="2026-06-02"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://wellnessnursepro.com" },
+          { name: "Eight Laws of Health", url: "https://wellnessnursepro.com/eight-laws-of-health" },
+        ]}
+      />
+      <FAQSchema
+        questions={[
+          { question: "What does NEWSTART stand for?", answer: "NEWSTART is an acronym for the eight laws of health: Nutrition, Exercise, Water, Sunlight, Temperance, Air, Rest, and Trust in God. These principles form a comprehensive approach to health developed by the Weimar Institute based on Seventh-day Adventist health teachings." },
+          { question: "What are the Eight Laws of Health?", answer: "The Eight Laws of Health are Nutrition (plant-based whole foods), Exercise (regular physical activity), Water (adequate hydration and hydrotherapy), Sunlight (moderate daily sun exposure), Temperance (avoiding harmful substances and practicing moderation), Air (fresh air and deep breathing), Rest (7-8 hours of sleep and weekly Sabbath rest), and Trust in God (faith, prayer, and spiritual wellness)." },
+          { question: "How long do Seventh-day Adventists live compared to the general population?", answer: "According to the Adventist Health Studies conducted by Loma Linda University, Seventh-day Adventists who follow a plant-based diet live an average of 7 to 10 years longer than the general population." },
+          { question: "What is the NEWSTART lifestyle program?", answer: "The NEWSTART lifestyle program was developed by the Weimar Institute in California based on the health writings of Ellen G. White. It teaches eight foundational principles for optimal health that combine faith-based wisdom with evidence-based wellness practices." },
+          { question: "Is the NEWSTART diet plant-based?", answer: "Yes, the NEWSTART nutrition principle advocates a plant-based diet centered on whole grains, fresh fruits, vegetables, legumes, and nuts — the diet God prescribed in Genesis 1:29. The Adventist Health Studies have shown significant health and longevity benefits from this dietary pattern." },
+        ]}
+      />
       {/* Hero Section */}
       <section className="bg-[var(--primary-green)] text-white section-padding text-center">
         <div className="max-w-4xl mx-auto">
@@ -339,6 +363,26 @@ export default function EightLawsOfHealth() {
           </div>
         </div>
       </section>
+
+      {/* Table of Contents */}
+      <nav className="section-padding bg-white border-b border-gray-100" aria-label="Table of Contents">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-xl font-bold mb-4 text-[var(--primary-green)]">Table of Contents</h2>
+          <ol className="grid sm:grid-cols-2 gap-2">
+            {laws.map((law, index) => (
+              <li key={law.name}>
+                <a
+                  href={`#${law.name.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[var(--light-bg)] transition-colors text-[var(--dark-text)] hover:text-[var(--primary-green)]"
+                >
+                  <span className="text-xl">{law.icon}</span>
+                  <span className="font-medium">{index + 1}. {law.name}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </nav>
 
       {/* Individual Law Sections */}
       {laws.map((law, index) => (
@@ -482,6 +526,16 @@ export default function EightLawsOfHealth() {
               Back to Home
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Medical Disclaimer */}
+      <section className="bg-[var(--light-bg)] border-t border-gray-200 px-6 py-8">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-sm text-gray-500 italic">
+            <strong>Disclaimer:</strong> This content is for educational purposes only and does not constitute medical advice.
+            Always consult a qualified healthcare provider before making changes to your diet, exercise routine, or health regimen.
+          </p>
         </div>
       </section>
     </div>

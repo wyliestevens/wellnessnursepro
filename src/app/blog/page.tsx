@@ -1,6 +1,7 @@
 import { getAllPosts } from '@/lib/blog-data';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { BreadcrumbSchema } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
   title: 'Blog — Wellness Nurse Pro',
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
       'Health and wellness articles rooted in the NEWSTART lifestyle principles.',
     type: 'website',
   },
+  alternates: { canonical: 'https://wellnessnursepro.com/blog' },
 };
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +23,12 @@ export default async function BlogPage() {
 
   return (
     <section className="section-padding">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://wellnessnursepro.com" },
+          { name: "Blog", url: "https://wellnessnursepro.com/blog" },
+        ]}
+      />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="mb-4">Wellness Blog</h1>
