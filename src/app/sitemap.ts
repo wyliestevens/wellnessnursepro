@@ -23,6 +23,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/about`,
       lastModified: '2026-06-10',
     },
+    {
+      url: `${baseUrl}/disclaimer`,
+      lastModified: '2026-06-17',
+    },
+    {
+      url: `${baseUrl}/disclosure`,
+      lastModified: '2026-06-17',
+    },
   ]
 
   let blogPosts: MetadataRoute.Sitemap = []
